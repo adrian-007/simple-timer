@@ -1,0 +1,3 @@
+Very simple example of a timer that can function in either of two modes: one-shot or periodic.
+Developed using Fedora 29, CMake 3.12, GCC 8.3.1. CMake expects gmock and gtest packages to be installed
+in the system (i.e dnf install gmock-devel gtest-devel).
