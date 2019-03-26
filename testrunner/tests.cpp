@@ -1,49 +1,10 @@
-#include <condition_variable>
-#include <mutex>
-#include <chrono>
+#include <simple_timer.hpp>
+#include <event.hpp>
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include <simple_timer.hpp>
-
 using namespace testing;
-
-namespace
-{
-    class Event
-    {
-    public:
-        Event() = default;
-
-        bool wait(const std::chrono::nanoseconds& timeout)
-        {
-            std::unique_lock<std::mutex> lock(m_mutex);
-            return m_cv.wait_for(lock, timeout, [&]()
-            {
-                return m_event;
-            });
-        }
-
-        void notify()
-        {
-            std::unique_lock<std::mutex> lock(m_mutex);
-            m_event = true;
-            m_cv.notify_all();
-        }
-
-        void reset()
-        {
-            std::unique_lock<std::mutex> lock(m_mutex);
-            m_event = false;
-        }
-
-    private:
-        bool                       m_event = false;
-        std::mutex                 m_mutex;
-        std::condition_variable    m_cv;
-    };
-}
 
 TEST(SimpleTimer, CallingStopWithoutStart)
 {

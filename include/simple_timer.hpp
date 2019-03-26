@@ -3,11 +3,9 @@
 
 #include <functional>
 #include <thread>
-#include <mutex>
 #include <condition_variable>
-#include <atomic>
-#include <chrono>
 
+class Event;
 using TimerCallback = std::function<void()>;
 
 class SimpleTimer
@@ -21,8 +19,8 @@ public:
 
 private:
     bool run_timer(const std::chrono::nanoseconds& duration, const TimerCallback& callback);
-    void thread_main_periodic(const std::chrono::nanoseconds& duration, const TimerCallback& callback);
-    void thread_main_one_shot(const std::chrono::nanoseconds& duration, const TimerCallback& callback);
+    void thread_main_periodic(Event& evtStarted, const std::chrono::nanoseconds& duration, const TimerCallback& callback);
+    void thread_main_one_shot(Event& evtStarted, const std::chrono::nanoseconds& duration, const TimerCallback& callback);
 
     std::thread                m_thread;
     bool                       m_stop = true;

@@ -13,4 +13,5 @@ if (NOT WIN32)
     target_link_libraries(simple_timer pthread)
 endif()
 
-add_subdirectory(test)
+add_subdirectory(testrunner)
+add_subdirectory(example)
